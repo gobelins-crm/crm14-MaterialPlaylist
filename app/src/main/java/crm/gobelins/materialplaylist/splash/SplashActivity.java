@@ -1,17 +1,19 @@
 package crm.gobelins.materialplaylist.splash;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
+import android.widget.Toast;
+
+import com.echonest.api.v4.EchoNestException;
 
 import crm.gobelins.materialplaylist.R;
 import crm.gobelins.materialplaylist.home.HomeActivity;
+import crm.gobelins.materialplaylist.server.ENApi;
 
 
 public class SplashActivity extends FragmentActivity {
-
-    private static final int SPLASH_TIME_OUT = 1500;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,23 +23,37 @@ public class SplashActivity extends FragmentActivity {
         // of the AppInfoFragment
         setContentView(R.layout.activity_splash);
 
-        new Handler().postDelayed(new Runnable() {
+        // Test if we have access to the EchoNest API
+        new SyncAllGenresTask().execute();
+    }
 
-            /*
-             * Showing splash screen with a timer. This will be useful when you
-             * want to show case your app logo / company
-             */
+    private class SyncAllGenresTask extends AsyncTask<String, Void, Boolean> {
 
-            @Override
-            public void run() {
-                Intent i = new Intent(SplashActivity.this, HomeActivity.class);
-
-                // start Home Activity
-                startActivity(i);
-
-                // close the splashscreen
-                finish();
+        @Override
+        protected Boolean doInBackground(String... params) {
+            boolean hasFailed = false;
+            try {
+                ENApi.with(SplashActivity.this).syncAllGenres();
+            } catch (EchoNestException e) {
+                hasFailed = true;
             }
-        }, SPLASH_TIME_OUT);
+            return hasFailed;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean hasFailed) {
+            if (hasFailed) {
+                Toast.makeText(SplashActivity.this, getString(R.string.error_api_unreachable), Toast.LENGTH_LONG)
+                        .show();
+            }
+
+            Intent i = new Intent(SplashActivity.this, HomeActivity.class);
+
+            // start Home Activity
+            startActivity(i);
+
+            // close the splashscreen
+            finish();
+        }
     }
 }
