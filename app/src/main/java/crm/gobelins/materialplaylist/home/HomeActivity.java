@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import crm.gobelins.materialplaylist.R;
+import crm.gobelins.materialplaylist.server.ENApi;
 
 public class HomeActivity extends ActionBarActivity {
 
@@ -13,6 +14,8 @@ public class HomeActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        ENApi.with(this).dumpStats();
     }
 
 
