@@ -4,5 +4,8 @@
     <string name="app_name">MaterialPlaylist</string>
     <string name="app_logo_description">App Logo</string>
     <string name="app_version">v%1$s - build %2$d</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 
 </resources>
