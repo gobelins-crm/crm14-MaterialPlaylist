@@ -17,6 +17,8 @@ public class SplashActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // The layout already contains an instance
+        // of the AppInfoFragment
         setContentView(R.layout.activity_splash);
 
         new Handler().postDelayed(new Runnable() {

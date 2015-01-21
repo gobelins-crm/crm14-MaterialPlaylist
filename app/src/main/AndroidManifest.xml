@@ -19,6 +19,14 @@
         <activity
             android:name=".home.HomeActivity"
             android:label="@string/title_activity_home" />
+        <activity
+            android:name=".about.AboutActivity"
+            android:label="@string/title_activity_about"
+            android:parentActivityName=".home.HomeActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="crm.gobelins.materialplaylist.home.HomeActivity" />
+        </activity>
     </application>
 
 </manifest>
