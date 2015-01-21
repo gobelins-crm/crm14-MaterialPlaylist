@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import crm.gobelins.materialplaylist.BuildConfig;
 import crm.gobelins.materialplaylist.R;
 
 /**
@@ -28,9 +29,7 @@ public class AppInfoFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_app_info, container, false);
         TextView versionTv = (TextView) view.findViewById(R.id.app_version);
 
-        String version = VersionInfo.getVersionName(getActivity());
-        int revision = VersionInfo.getRevisionNumber(getActivity());
-        String versionInfo = getActivity().getString(R.string.app_version, version, revision);
+        String versionInfo = getActivity().getString(R.string.app_version, BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE);
 
         versionTv.setText(versionInfo);
 
