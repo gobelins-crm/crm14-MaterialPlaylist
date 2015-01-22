@@ -2,6 +2,8 @@ package crm.gobelins.materialplaylist.home;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
@@ -26,17 +28,11 @@ public class HomeActivity extends ActionBarActivity implements ArtistsFragment.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        getSupportFragmentManager()
-                .beginTransaction()
-                .add(R.id.artists_container, ArtistsFragment.newInstance(100, "electro"))
-                .commit();
-
         if (BuildConfig.DEBUG) {
             // Check if EchoNest API is working in debug mode
             ENApi.with(this).dumpStats();
         }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -50,7 +46,7 @@ public class HomeActivity extends ActionBarActivity implements ArtistsFragment.O
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-                Log.d(TAG, s);
+                searchForArtistsByGenre(s);
                 return false;
             }
 
@@ -83,4 +79,19 @@ public class HomeActivity extends ActionBarActivity implements ArtistsFragment.O
     public void onArtistClick(Artist artist) {
         Log.d(TAG, artist.getID());
     }
+
+
+    private void searchForArtistsByGenre(String genre) {
+        Fragment fragment = ArtistsFragment.newInstance(100, genre);
+        changeFragment(R.id.artists_container, fragment);
+    }
+
+    private void changeFragment(int id, Fragment fragment) {
+        getSupportFragmentManager().beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .replace(id, fragment)
+                .commit();
+    }
+
+
 }
