@@ -29,6 +29,22 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="crm.gobelins.materialplaylist.home.HomeActivity" />
         </activity>
+        <activity
+            android:name=".songs.PlaylistActivity"
+            android:label="@string/title_song_list"
+            android:parentActivityName=".home.HomeActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="crm.gobelins.materialplaylist.home.HomeActivity" />
+        </activity>
+        <activity
+            android:name=".songs.SongDetailActivity"
+            android:label="@string/title_song_detail"
+            android:parentActivityName=".songs.PlaylistActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".songs.PlaylistActivity" />
+        </activity>
     </application>
 
 </manifest>

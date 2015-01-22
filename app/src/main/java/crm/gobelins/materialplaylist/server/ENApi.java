@@ -6,6 +6,8 @@ import com.echonest.api.v4.Artist;
 import com.echonest.api.v4.ArtistParams;
 import com.echonest.api.v4.EchoNestAPI;
 import com.echonest.api.v4.EchoNestException;
+import com.echonest.api.v4.Playlist;
+import com.echonest.api.v4.PlaylistParams;
 
 import java.util.List;
 
@@ -47,5 +49,18 @@ public class ENApi {
 
     public List<String> getGenres() {
         return mGenres;
+    }
+
+    public Playlist getArtistRadioByArtistId(String artistId, int results) throws EchoNestException {
+        PlaylistParams params = new PlaylistParams();
+
+        params.addIDSpace("7digital-US");
+        params.includeTracks();
+        params.setType(PlaylistParams.PlaylistType.ARTIST_RADIO);
+
+        params.addArtistID(artistId);
+        params.setResults(results);
+
+        return mEchoNestApi.createStaticPlaylist(params);
     }
 }

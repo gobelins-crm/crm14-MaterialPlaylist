@@ -97,12 +97,13 @@ public class ArtistsFragment extends Fragment implements AbsListView.OnItemClick
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        try {
-            mListener = (OnArtistClickListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnFragmentInteractionListener");
+
+        // Activities containing this fragment must implement its callbacks.
+        if (!(activity instanceof OnArtistClickListener)) {
+            throw new IllegalStateException(activity.toString() + "must implement OnArtistClickListener.");
         }
+
+        mListener = (OnArtistClickListener) activity;
     }
 
     @Override
@@ -170,7 +171,7 @@ public class ArtistsFragment extends Fragment implements AbsListView.OnItemClick
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnArtistClickListener {
-        public void onArtistClick(Artist id);
+        public void onArtistClick(Artist artist);
     }
 
 }

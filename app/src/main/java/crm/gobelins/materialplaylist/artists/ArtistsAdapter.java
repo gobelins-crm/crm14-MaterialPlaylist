@@ -49,7 +49,7 @@ public class ArtistsAdapter extends ArrayAdapter<Artist> {
         return convertView;
     }
 
-    static class ViewHolder {
+    private static class ViewHolder {
         TextView name;
     }
 }

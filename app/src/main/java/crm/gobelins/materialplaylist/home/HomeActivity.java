@@ -18,20 +18,32 @@ import crm.gobelins.materialplaylist.R;
 import crm.gobelins.materialplaylist.about.AboutActivity;
 import crm.gobelins.materialplaylist.artists.ArtistsFragment;
 import crm.gobelins.materialplaylist.server.ENApi;
+import crm.gobelins.materialplaylist.songs.PlaylistActivity;
 
 public class HomeActivity extends ActionBarActivity implements ArtistsFragment.OnArtistClickListener {
 
     private static final String TAG = "HomeActivity";
+    private static final String STATE_GENRE = "stateGenre";
+    private static final int NB_ARTISTS_RESULTS = 100;
+    private String mCurrentGenre;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_home);
 
         if (BuildConfig.DEBUG) {
             // Check if EchoNest API is working in debug mode
             ENApi.with(this).dumpStats();
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putString(STATE_GENRE, mCurrentGenre);
+
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -78,11 +90,18 @@ public class HomeActivity extends ActionBarActivity implements ArtistsFragment.O
     @Override
     public void onArtistClick(Artist artist) {
         Log.d(TAG, artist.getID());
+
+        Intent intent = new Intent(this, PlaylistActivity.class);
+
+        intent.putExtra(PlaylistActivity.EXTRA_ARTIST_ID, artist.getID());
+
+        startActivity(intent);
     }
 
 
     private void searchForArtistsByGenre(String genre) {
-        Fragment fragment = ArtistsFragment.newInstance(100, genre);
+        mCurrentGenre = genre;
+        Fragment fragment = ArtistsFragment.newInstance(NB_ARTISTS_RESULTS, genre);
         changeFragment(R.id.artists_container, fragment);
     }
 

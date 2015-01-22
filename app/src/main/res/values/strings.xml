@@ -13,5 +13,7 @@
     <string name="error_api_unreachable">The EchoNest API is unreachable, sorry!</string>
     <string name="artist_anonymous">Anonymous</string>
     <string name="error_empty_artists">No Artists found</string>
+    <string name="title_song_list">Songs</string>
+    <string name="title_song_detail">Song Detail</string>
 
 </resources>
