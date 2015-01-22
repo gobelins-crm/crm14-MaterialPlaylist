@@ -11,5 +11,7 @@
     <string name="action_settings">Settings</string>
     <string name="action_search">search</string>
     <string name="error_api_unreachable">The EchoNest API is unreachable, sorry!</string>
+    <string name="artist_anonymous">Anonymous</string>
+    <string name="error_empty_artists">No Artists found</string>
 
 </resources>

@@ -9,12 +9,15 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.echonest.api.v4.Artist;
+
 import crm.gobelins.materialplaylist.BuildConfig;
 import crm.gobelins.materialplaylist.R;
 import crm.gobelins.materialplaylist.about.AboutActivity;
+import crm.gobelins.materialplaylist.artists.ArtistsFragment;
 import crm.gobelins.materialplaylist.server.ENApi;
 
-public class HomeActivity extends ActionBarActivity {
+public class HomeActivity extends ActionBarActivity implements ArtistsFragment.OnArtistClickListener {
 
     private static final String TAG = "HomeActivity";
 
@@ -22,6 +25,11 @@ public class HomeActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.artists_container, ArtistsFragment.newInstance(100, "electro"))
+                .commit();
 
         if (BuildConfig.DEBUG) {
             // Check if EchoNest API is working in debug mode
@@ -69,5 +77,10 @@ public class HomeActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onArtistClick(Artist artist) {
+        Log.d(TAG, artist.getID());
     }
 }

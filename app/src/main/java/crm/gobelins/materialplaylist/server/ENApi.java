@@ -2,6 +2,8 @@ package crm.gobelins.materialplaylist.server;
 
 import android.content.Context;
 
+import com.echonest.api.v4.Artist;
+import com.echonest.api.v4.ArtistParams;
 import com.echonest.api.v4.EchoNestAPI;
 import com.echonest.api.v4.EchoNestException;
 
@@ -31,6 +33,16 @@ public class ENApi {
 
     public void syncAllGenres() throws EchoNestException {
         mGenres = mEchoNestApi.listGenres();
+    }
+
+    public List<Artist> getHotArtistsByGenre(int results, String genre) throws EchoNestException {
+        ArtistParams params = new ArtistParams();
+
+        params.includeImages();
+        params.setResults(results);
+        params.addGenre(genre);
+
+        return mEchoNestApi.topHotArtists(params);
     }
 
     public List<String> getGenres() {
