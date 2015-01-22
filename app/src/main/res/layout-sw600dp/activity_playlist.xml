@@ -16,13 +16,11 @@
 
     -->
 
-    <fragment
-        android:id="@+id/song_list"
-        android:name="crm.gobelins.materialplaylist.songs.PlaylistFragment"
+    <FrameLayout
+        android:id="@+id/playlist_container"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        tools:layout="@android:layout/list_content" />
+        android:layout_weight="1" />
 
     <FrameLayout
         android:id="@+id/song_detail_container"

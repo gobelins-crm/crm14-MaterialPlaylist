@@ -41,6 +41,7 @@ public class PlaylistFragment extends ListFragment implements LoaderManager.Load
      * The current activated item position. Only used on tablets.
      */
     private int mActivatedPosition = ListView.INVALID_POSITION;
+    private boolean mActivateOnItemClick = false;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -79,6 +80,8 @@ public class PlaylistFragment extends ListFragment implements LoaderManager.Load
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        setActivateOnItemClick();
 
         // Restore the previously serialized activated item position.
         if (savedInstanceState != null
@@ -128,9 +131,13 @@ public class PlaylistFragment extends ListFragment implements LoaderManager.Load
      * given the 'activated' state when touched.
      */
     public void setActivateOnItemClick(boolean activateOnItemClick) {
+        mActivateOnItemClick = activateOnItemClick;
+    }
+
+    private void setActivateOnItemClick() {
         // When setting CHOICE_MODE_SINGLE, ListView will automatically
         // give items the 'activated' state when touched.
-        getListView().setChoiceMode(activateOnItemClick
+        getListView().setChoiceMode(mActivateOnItemClick
                 ? ListView.CHOICE_MODE_SINGLE
                 : ListView.CHOICE_MODE_NONE);
     }

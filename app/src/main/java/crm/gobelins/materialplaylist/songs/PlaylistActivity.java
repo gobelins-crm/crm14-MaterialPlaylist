@@ -39,7 +39,7 @@ public class PlaylistActivity extends ActionBarActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_song_list);
+        setContentView(R.layout.activity_playlist);
 
         // Show the Up button in the action bar.
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -51,6 +51,7 @@ public class PlaylistActivity extends ActionBarActivity
             String artistId = getIntent().getStringExtra(EXTRA_ARTIST_ID);
 
             PlaylistFragment fragment = PlaylistFragment.newInstance(NB_SONGS_RESULTS, artistId);
+
             if (findViewById(R.id.song_detail_container) != null) {
                 // The detail container view will be present only in the
                 // large-screen layouts (res/values-large and
