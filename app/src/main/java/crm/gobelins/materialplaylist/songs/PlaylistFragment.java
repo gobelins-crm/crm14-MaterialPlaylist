@@ -11,6 +11,8 @@ import android.widget.ListView;
 import com.echonest.api.v4.Playlist;
 import com.echonest.api.v4.Song;
 
+import crm.gobelins.materialplaylist.R;
+
 /**
  * A list fragment representing a list of Songs. This fragment
  * also supports tablet devices by allowing list items to be given an
@@ -88,6 +90,9 @@ public class PlaylistFragment extends ListFragment implements LoaderManager.Load
                 && savedInstanceState.containsKey(STATE_ACTIVATED_POSITION)) {
             setActivatedPosition(savedInstanceState.getInt(STATE_ACTIVATED_POSITION));
         }
+
+        // Show progressbar
+        setListShown(false);
     }
 
     @Override
@@ -168,8 +173,11 @@ public class PlaylistFragment extends ListFragment implements LoaderManager.Load
         if (null != playlist) {
             mAdapter.addAll(playlist.getSongs());
         } else {
-            // TODO: handle playlist loading error
+            setEmptyText(getActivity().getString(R.string.error_loading_playlist));
         }
+
+        // hide Progressbar
+        setListShown(true);
     }
 
     @Override

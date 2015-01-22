@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.echonest.api.v4.Artist;
@@ -49,6 +50,7 @@ public class ArtistsFragment extends Fragment implements AbsListView.OnItemClick
      * Views.
      */
     private ArtistsAdapter mAdapter;
+    private ProgressBar mProgressBar;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -90,6 +92,8 @@ public class ArtistsFragment extends Fragment implements AbsListView.OnItemClick
 
         // Set OnItemClickListener so we can be notified on item clicks
         mListView.setOnItemClickListener(this);
+
+        mProgressBar = (ProgressBar) view.findViewById(R.id.progressbar);
 
         return view;
     }
@@ -147,6 +151,7 @@ public class ArtistsFragment extends Fragment implements AbsListView.OnItemClick
 
     @Override
     public void onLoadFinished(Loader<List<Artist>> loader, List<Artist> artists) {
+        mProgressBar.setVisibility(View.GONE);
         mAdapter.clear();
         if (null != artists && !artists.isEmpty()) {
             mAdapter.addAll(artists);
