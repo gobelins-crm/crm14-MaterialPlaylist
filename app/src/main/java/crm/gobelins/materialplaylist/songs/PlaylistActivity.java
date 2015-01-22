@@ -47,26 +47,29 @@ public class PlaylistActivity extends ActionBarActivity
         String artistName = getIntent().getStringExtra(EXTRA_ARTIST_NAME);
         setTitle(artistName);
 
+        if (null != findViewById(R.id.song_detail_container)) {
+            // The detail container view will be present only in the
+            // large-screen layouts (res/values-large and
+            // res/values-sw600dp). If this view is present, then the
+            // activity should be in two-pane mode.
+            mTwoPane = true;
+        }
+
         if (null == savedInstanceState) {
             String artistId = getIntent().getStringExtra(EXTRA_ARTIST_ID);
 
             PlaylistFragment fragment = PlaylistFragment.newInstance(NB_SONGS_RESULTS, artistId);
-
-            if (findViewById(R.id.song_detail_container) != null) {
-                // The detail container view will be present only in the
-                // large-screen layouts (res/values-large and
-                // res/values-sw600dp). If this view is present, then the
-                // activity should be in two-pane mode.
-                mTwoPane = true;
-
-                // In two-pane mode, list items should be given the
-                // 'activated' state when touched.
-                fragment.setActivateOnItemClick(true);
-            }
+            fragment.setActivateOnItemClick(mTwoPane);
 
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.playlist_container, fragment)
+                    .add(R.id.playlist_container, fragment, PlaylistFragment.TAG)
                     .commit();
+        } else {
+            // In two-pane mode, list items should be given the
+            // 'activated' state when touched.
+            ((PlaylistFragment) getSupportFragmentManager()
+                    .findFragmentByTag(PlaylistFragment.TAG))
+                    .setActivateOnItemClick(true);
         }
     }
 
@@ -86,10 +89,7 @@ public class PlaylistActivity extends ActionBarActivity
             // In two-pane mode, show the detail view in this activity by
             // adding or replacing the detail fragment using a
             // fragment transaction.
-            Bundle arguments = new Bundle();
-            arguments.putString(SongDetailFragment.ARG_ITEM_ID, song.getID());
-            SongDetailFragment fragment = new SongDetailFragment();
-            fragment.setArguments(arguments);
+            SongDetailFragment fragment = SongDetailFragment.newInstance(song.getID());
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.song_detail_container, fragment)
                     .commit();
@@ -98,7 +98,7 @@ public class PlaylistActivity extends ActionBarActivity
             // In single-pane mode, simply start the detail activity
             // for the selected item ID.
             Intent detailIntent = new Intent(this, SongDetailActivity.class);
-            detailIntent.putExtra(SongDetailFragment.ARG_ITEM_ID, song.getID());
+            detailIntent.putExtra(SongDetailFragment.ARG_SONG_ID, song.getID());
             startActivity(detailIntent);
         }
     }

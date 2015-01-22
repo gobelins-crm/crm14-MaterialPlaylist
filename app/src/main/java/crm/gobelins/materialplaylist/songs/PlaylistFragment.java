@@ -22,6 +22,7 @@ import com.echonest.api.v4.Song;
  */
 public class PlaylistFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Playlist> {
 
+    public static final String TAG = "PlaylistFragmentTag";
     /**
      * The serialization (saved instance state) Bundle key representing the
      * activated item position. Only used on tablets.
@@ -30,7 +31,6 @@ public class PlaylistFragment extends ListFragment implements LoaderManager.Load
     private static final String ARG_ARTIST_ID = "artistId";
     private static final String ARG_RESULTS = "results";
     private static final int PLAYLIST_LOADER_ID = 1212;
-
     private String mArtistId;
     private int mResults;
 

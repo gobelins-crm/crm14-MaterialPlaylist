@@ -8,6 +8,8 @@ import com.echonest.api.v4.EchoNestAPI;
 import com.echonest.api.v4.EchoNestException;
 import com.echonest.api.v4.Playlist;
 import com.echonest.api.v4.PlaylistParams;
+import com.echonest.api.v4.Song;
+import com.echonest.api.v4.SongParams;
 
 import java.util.List;
 
@@ -62,5 +64,23 @@ public class ENApi {
         params.setResults(results);
 
         return mEchoNestApi.createStaticPlaylist(params);
+    }
+
+    public Song getSongById(String songId) throws EchoNestException {
+        SongParams params = new SongParams();
+
+        params.addIDSpace("7digital-US");
+        params.includeTracks();
+        params.setResults(1);
+        params.setID(songId);
+
+        List<Song> songs = mEchoNestApi.getSongs(params);
+        Song song = null;
+
+        if (!songs.isEmpty()) {
+            song = songs.get(0);
+        }
+
+        return song;
     }
 }

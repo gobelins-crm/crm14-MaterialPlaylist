@@ -16,5 +16,6 @@
     <string name="title_song_list">Songs</string>
     <string name="title_song_detail">Song Detail</string>
     <string name="default_genre">rock</string>
+    <string name="error_loading_song">Error loading song</string>
 
 </resources>
