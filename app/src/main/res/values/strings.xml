@@ -15,5 +15,6 @@
     <string name="error_empty_artists">No Artists found</string>
     <string name="title_song_list">Songs</string>
     <string name="title_song_detail">Song Detail</string>
+    <string name="default_genre">rock</string>
 
 </resources>

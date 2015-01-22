@@ -33,6 +33,7 @@
         <activity
             android:name=".songs.PlaylistActivity"
             android:label="@string/title_song_list"
+            android:launchMode="singleTop"
             android:parentActivityName=".home.HomeActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

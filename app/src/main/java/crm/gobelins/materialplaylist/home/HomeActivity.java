@@ -2,6 +2,7 @@ package crm.gobelins.materialplaylist.home;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
@@ -12,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.echonest.api.v4.Artist;
+import com.echonest.api.v4.EchoNestException;
 
 import crm.gobelins.materialplaylist.BuildConfig;
 import crm.gobelins.materialplaylist.R;
@@ -24,7 +26,10 @@ public class HomeActivity extends ActionBarActivity implements ArtistsFragment.O
 
     private static final String TAG = "HomeActivity";
     private static final String STATE_GENRE = "stateGenre";
+    private static final String PREFS_HOME = "PrefsHome";
+    private static final String PREF_CURRENT_GENRE = "PrefCurrentGenre";
     private static final int NB_ARTISTS_RESULTS = 100;
+
     private String mCurrentGenre;
 
     @Override
@@ -37,13 +42,30 @@ public class HomeActivity extends ActionBarActivity implements ArtistsFragment.O
             // Check if EchoNest API is working in debug mode
             ENApi.with(this).dumpStats();
         }
+
+        if (null == savedInstanceState) {
+            setGenreFromPrefs();
+        }
+    }
+
+    private void setGenreFromPrefs() {
+        mCurrentGenre = getSharedPreferences(PREFS_HOME, MODE_PRIVATE)
+                .getString(PREF_CURRENT_GENRE, getString(R.string.default_genre));
+        searchForArtistsByGenre(mCurrentGenre);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        setGenre(savedInstanceState.getString(STATE_GENRE));
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putString(STATE_GENRE, mCurrentGenre);
-
         super.onSaveInstanceState(outState);
+
+        outState.putString(STATE_GENRE, mCurrentGenre);
     }
 
     @Override
@@ -94,15 +116,20 @@ public class HomeActivity extends ActionBarActivity implements ArtistsFragment.O
         Intent intent = new Intent(this, PlaylistActivity.class);
 
         intent.putExtra(PlaylistActivity.EXTRA_ARTIST_ID, artist.getID());
+        try {
+            intent.putExtra(PlaylistActivity.EXTRA_ARTIST_NAME, artist.getName());
+        } catch (EchoNestException e) {
+            e.printStackTrace();
+        }
 
         startActivity(intent);
     }
 
 
     private void searchForArtistsByGenre(String genre) {
-        mCurrentGenre = genre;
         Fragment fragment = ArtistsFragment.newInstance(NB_ARTISTS_RESULTS, genre);
         changeFragment(R.id.artists_container, fragment);
+        setGenre(genre);
     }
 
     private void changeFragment(int id, Fragment fragment) {
@@ -112,5 +139,13 @@ public class HomeActivity extends ActionBarActivity implements ArtistsFragment.O
                 .commit();
     }
 
+    private void setGenre(String genre) {
+        mCurrentGenre = genre;
+        setTitle(genre);
+        getSharedPreferences(PREFS_HOME, MODE_PRIVATE)
+                .edit()
+                .putString(PREF_CURRENT_GENRE, genre)
+                .apply();
+    }
 
 }

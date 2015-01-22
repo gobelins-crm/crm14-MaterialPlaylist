@@ -27,6 +27,7 @@ public class PlaylistActivity extends ActionBarActivity
         implements PlaylistFragment.OnSongClickListener {
 
     public static final String EXTRA_ARTIST_ID = "extraArtistId";
+    public static final String EXTRA_ARTIST_NAME = "extraArtistName";
 
     private static final int NB_SONGS_RESULTS = 100;
     /**
@@ -42,6 +43,9 @@ public class PlaylistActivity extends ActionBarActivity
 
         // Show the Up button in the action bar.
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        String artistName = getIntent().getStringExtra(EXTRA_ARTIST_NAME);
+        setTitle(artistName);
 
         if (null == savedInstanceState) {
             String artistId = getIntent().getStringExtra(EXTRA_ARTIST_ID);
