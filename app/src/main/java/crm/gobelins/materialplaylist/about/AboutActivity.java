@@ -16,11 +16,17 @@ public class AboutActivity extends ActionBarActivity {
         // with id: "app_info_container"
         setContentView(R.layout.activity_about);
 
-        // Dynamically add a new AppInfoFragment
-        // into the view hierarchy
-        getSupportFragmentManager()
-                .beginTransaction()
-                .add(R.id.app_info_container, new AppInfoFragment())
-                .commit();
+        // Show the Up button in the action bar.
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        if (null == savedInstanceState) {
+
+            // Dynamically add a new AppInfoFragment
+            // into the view hierarchy
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.app_info_container, new AppInfoFragment())
+                    .commit();
+        }
     }
 }
