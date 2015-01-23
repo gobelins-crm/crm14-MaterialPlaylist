@@ -92,6 +92,7 @@ public class ArtistsFragment extends Fragment implements AbsListView.OnItemClick
 
         // Set OnItemClickListener so we can be notified on item clicks
         mListView.setOnItemClickListener(this);
+        mListView.setDrawSelectorOnTop(true);
 
         mProgressBar = (ProgressBar) view.findViewById(R.id.progressbar);
 
