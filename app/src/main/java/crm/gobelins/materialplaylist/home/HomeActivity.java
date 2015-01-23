@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -40,6 +41,11 @@ public class HomeActivity extends ActionBarActivity implements ArtistsFragment.O
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_home);
+
+        Toolbar actionbar = (Toolbar) findViewById(R.id.actionbar);
+        if (null != actionbar) {
+            setSupportActionBar(actionbar);
+        }
 
         if (BuildConfig.DEBUG) {
             // Check if EchoNest API is working in debug mode
