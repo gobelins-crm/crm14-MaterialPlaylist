@@ -46,7 +46,7 @@ public class ArtistsAdapter extends ArrayAdapter<Artist> {
             imageUrl = artist.getImages().get(0).getURL();
         } catch (EchoNestException e) {
             e.printStackTrace();
-            imageUrl = "";
+            imageUrl = null;
         }
 
         try {
@@ -57,11 +57,15 @@ public class ArtistsAdapter extends ArrayAdapter<Artist> {
         }
 
         holder.artistName.setText(name);
-        Picasso.with(getContext())
-                .load(imageUrl)
-                .resize(100, 100)
-                .centerInside()
-                .into(holder.image);
+        if (null != imageUrl) {
+            Picasso.with(getContext())
+                    .load(imageUrl)
+                    .resize(100, 100)
+                    .centerInside()
+                    .into(holder.image);
+        } else {
+            holder.image.setImageBitmap(null);
+        }
 
         return convertView;
     }

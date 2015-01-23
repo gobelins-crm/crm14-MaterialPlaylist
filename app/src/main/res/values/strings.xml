@@ -19,5 +19,7 @@
     <string name="error_loading_song">Error loading song</string>
     <string name="error_loading_playlist">No Playlist found</string>
     <string name="item_artist_image_description">Item Artist Image</string>
+    <string name="song_detail_release_image_description">Song detail release image</string>
+    <string name="song_detail_play_button">play</string>
 
 </resources>

@@ -7,10 +7,14 @@ import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.echonest.api.v4.Song;
+import com.squareup.picasso.Picasso;
 
 import crm.gobelins.materialplaylist.R;
 
@@ -29,6 +33,10 @@ public class SongDetailFragment extends Fragment implements LoaderManager.Loader
     private static final int SONG_LOADER_ID = 121212;
     private String mSongId;
     private TextView mTitleTv;
+    private TextView mArtistTv;
+    private ImageView mImage;
+    private Button mPreviewBtn;
+    private ProgressBar mProgressbar;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -63,7 +71,11 @@ public class SongDetailFragment extends Fragment implements LoaderManager.Loader
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_song_detail, container, false);
 
-        mTitleTv = (TextView) rootView.findViewById(R.id.song_detail);
+        mTitleTv = (TextView) rootView.findViewById(R.id.song_detail_title);
+        mArtistTv = (TextView) rootView.findViewById(R.id.song_detail_artist);
+        mImage = (ImageView) rootView.findViewById(R.id.song_detail_image);
+        mPreviewBtn = (Button) rootView.findViewById(R.id.song_detail_preview);
+        mProgressbar = (ProgressBar) rootView.findViewById(R.id.song_detail_progress);
 
         return rootView;
     }
@@ -79,8 +91,27 @@ public class SongDetailFragment extends Fragment implements LoaderManager.Loader
 
     @Override
     public void onLoadFinished(Loader<Song> loader, Song song) {
+        mProgressbar.setVisibility(View.GONE);
         if (null != song) {
             mTitleTv.setText(song.getTitle());
+            mArtistTv.setText(song.getArtistName());
+
+            String image;
+            try {
+                image = song.getString("tracks[0].release_image");
+            } catch (IndexOutOfBoundsException e) {
+                e.printStackTrace();
+                image = null;
+            }
+
+            if (null != image) {
+                Picasso.with(getActivity())
+                        .load(image)
+                        .resize(200, 200)
+                        .centerInside()
+                        .into(mImage);
+            }
+
         } else {
             Toast.makeText(getActivity(), getActivity().getString(R.string.error_loading_song), Toast.LENGTH_LONG).show();
         }
