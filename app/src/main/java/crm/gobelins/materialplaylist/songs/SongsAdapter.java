@@ -23,7 +23,7 @@ public class SongsAdapter extends ArrayAdapter<Song> {
         ViewHolder holder;
 
         if (null == convertView) {
-            convertView = mInflater.inflate(android.R.layout.simple_list_item_2, null, false);
+            convertView = mInflater.inflate(android.R.layout.simple_list_item_2, parent, false);
 
             holder = new ViewHolder();
             holder.title = (TextView) convertView.findViewById(android.R.id.text1);
