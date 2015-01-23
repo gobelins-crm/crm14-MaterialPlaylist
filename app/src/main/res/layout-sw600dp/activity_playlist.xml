@@ -1,29 +1,41 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:baselineAligned="false"
-    android:divider="?android:attr/dividerHorizontal"
-    android:orientation="horizontal"
-    android:showDividers="middle"
-    tools:context="crm.gobelins.materialplaylist.songs.PlaylistActivity">
+    android:orientation="vertical">
 
-    <!--
-    This layout is a two-pane layout for the Songs
-    master/detail flow.
+    <ImageView
+        android:id="@+id/playlist_artist_image"
+        android:layout_width="match_parent"
+        android:layout_height="400dp" />
 
-    -->
 
-    <FrameLayout
-        android:id="@+id/playlist_container"
-        android:layout_width="0dp"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1" />
+        android:baselineAligned="false"
+        android:divider="?android:attr/dividerHorizontal"
+        android:orientation="horizontal"
+        android:showDividers="middle"
+        tools:context="crm.gobelins.materialplaylist.songs.PlaylistActivity">
 
-    <FrameLayout
-        android:id="@+id/song_detail_container"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="3" />
+        <!--
+        This layout is a two-pane layout for the Songs
+        master/detail flow.
 
+        -->
+
+        <FrameLayout
+            android:id="@+id/playlist_container"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <FrameLayout
+            android:id="@+id/song_detail_container"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3" />
+
+    </LinearLayout>
 </LinearLayout>

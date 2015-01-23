@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 
 import com.echonest.api.v4.Song;
+import com.squareup.picasso.Picasso;
 
 import crm.gobelins.materialplaylist.R;
 
@@ -28,6 +29,7 @@ public class PlaylistActivity extends ActionBarActivity
 
     public static final String EXTRA_ARTIST_ID = "extraArtistId";
     public static final String EXTRA_ARTIST_NAME = "extraArtistName";
+    public static final String EXTRA_ARTIST_IMAGE = "extraArtistImage";
 
     private static final int NB_SONGS_RESULTS = 100;
     /**
@@ -43,6 +45,14 @@ public class PlaylistActivity extends ActionBarActivity
 
         // Show the Up button in the action bar.
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        String imageUrl = getIntent().getStringExtra(EXTRA_ARTIST_IMAGE);
+        Picasso.with(this)
+                .load(imageUrl)
+                .fit()
+                .centerCrop()
+                .into((android.widget.ImageView) findViewById(R.id.playlist_artist_image));
+
 
         String artistName = getIntent().getStringExtra(EXTRA_ARTIST_NAME);
         setTitle(artistName);

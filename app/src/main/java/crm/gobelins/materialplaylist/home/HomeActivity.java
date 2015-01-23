@@ -115,7 +115,17 @@ public class HomeActivity extends ActionBarActivity implements ArtistsFragment.O
 
         Intent intent = new Intent(this, PlaylistActivity.class);
 
+        String imageUrl;
+        try {
+            imageUrl = artist.getImages().get(0).getURL();
+        } catch (EchoNestException e) {
+            e.printStackTrace();
+            imageUrl = null;
+        }
+
+        intent.putExtra(PlaylistActivity.EXTRA_ARTIST_IMAGE, imageUrl);
         intent.putExtra(PlaylistActivity.EXTRA_ARTIST_ID, artist.getID());
+
         try {
             intent.putExtra(PlaylistActivity.EXTRA_ARTIST_NAME, artist.getName());
         } catch (EchoNestException e) {
