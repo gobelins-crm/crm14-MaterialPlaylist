@@ -62,6 +62,7 @@ public class ArtistsAdapter extends ArrayAdapter<Artist> {
                     .load(imageUrl)
                     .fit()
                     .centerCrop()
+                    .noFade()
                     .into(holder.image);
         } else {
             holder.image.setImageBitmap(null);

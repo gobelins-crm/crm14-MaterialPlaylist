@@ -22,5 +22,6 @@
     <string name="song_detail_release_image_description">Song detail release image</string>
     <string name="song_detail_play_button">play</string>
     <string name="transition_artist_image">transition_artist_image</string>
+    <string name="artist_image_transition">artist_image_transition</string>
 
 </resources>

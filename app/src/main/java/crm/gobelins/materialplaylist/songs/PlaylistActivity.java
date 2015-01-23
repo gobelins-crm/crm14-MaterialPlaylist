@@ -31,7 +31,7 @@ public class PlaylistActivity extends ActionBarActivity
     public static final String EXTRA_ARTIST_NAME = "extraArtistName";
     public static final String EXTRA_ARTIST_IMAGE = "extraArtistImage";
 
-    private static final int NB_SONGS_RESULTS = 100;
+    private static final int NB_SONGS_RESULTS = 10;
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
      * device.
@@ -51,6 +51,7 @@ public class PlaylistActivity extends ActionBarActivity
                 .load(imageUrl)
                 .fit()
                 .centerCrop()
+                .noFade()
                 .into((android.widget.ImageView) findViewById(R.id.playlist_artist_image));
 
 

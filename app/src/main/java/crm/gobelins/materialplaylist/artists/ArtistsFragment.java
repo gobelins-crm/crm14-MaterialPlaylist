@@ -123,7 +123,7 @@ public class ArtistsFragment extends Fragment implements AbsListView.OnItemClick
         if (null != mListener) {
             // Notify the active callbacks interface (the activity, if the
             // fragment is attached to one) that an item has been selected.
-            mListener.onArtistClick(mAdapter.getItem(position));
+            mListener.onArtistClick(mAdapter.getItem(position), view.findViewById(R.id.list_item_artist_image));
         }
     }
 
@@ -177,7 +177,7 @@ public class ArtistsFragment extends Fragment implements AbsListView.OnItemClick
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnArtistClickListener {
-        public void onArtistClick(Artist artist);
+        public void onArtistClick(Artist artist, View viewById);
     }
 
 }

@@ -13,6 +13,7 @@ import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.echonest.api.v4.Artist;
 import com.echonest.api.v4.EchoNestException;
@@ -30,7 +31,7 @@ public class HomeActivity extends ActionBarActivity implements ArtistsFragment.O
     private static final String STATE_GENRE = "stateGenre";
     private static final String PREFS_HOME = "PrefsHome";
     private static final String PREF_CURRENT_GENRE = "PrefCurrentGenre";
-    private static final int NB_ARTISTS_RESULTS = 100;
+    private static final int NB_ARTISTS_RESULTS = 10;
 
     private String mCurrentGenre;
 
@@ -112,7 +113,7 @@ public class HomeActivity extends ActionBarActivity implements ArtistsFragment.O
     }
 
     @Override
-    public void onArtistClick(Artist artist) {
+    public void onArtistClick(Artist artist, View viewById) {
         Log.d(TAG, artist.getID());
 
         Intent intent = new Intent(this, PlaylistActivity.class);
@@ -134,7 +135,9 @@ public class HomeActivity extends ActionBarActivity implements ArtistsFragment.O
             e.printStackTrace();
         }
 
-        ActivityCompat.startActivity(this, intent, ActivityOptionsCompat.makeSceneTransitionAnimation(this).toBundle());
+        ActivityOptionsCompat options = ActivityOptionsCompat
+                .makeSceneTransitionAnimation(this, viewById, getString(R.string.transition_artist_image));
+        ActivityCompat.startActivity(this, intent, options.toBundle());
     }
 
 
