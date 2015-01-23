@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.echonest.api.v4.Song;
 import com.squareup.picasso.Picasso;
@@ -25,18 +27,15 @@ import crm.gobelins.materialplaylist.R;
  * <p/>
  */
 public class PlaylistActivity extends ActionBarActivity
-        implements PlaylistFragment.OnSongClickListener {
+        implements PlaylistFragment.PlaylistListener, View.OnClickListener {
 
     public static final String EXTRA_ARTIST_ID = "extraArtistId";
     public static final String EXTRA_ARTIST_NAME = "extraArtistName";
     public static final String EXTRA_ARTIST_IMAGE = "extraArtistImage";
 
-    private static final int NB_SONGS_RESULTS = 10;
-    /**
-     * Whether or not the activity is in two-pane mode, i.e. running on a tablet
-     * device.
-     */
-    private boolean mTwoPane;
+    private static final int NB_SONGS_RESULTS = 3;
+    private PlaylistFragment mFragment;
+    private ProgressBar mProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +44,9 @@ public class PlaylistActivity extends ActionBarActivity
 
         // Show the Up button in the action bar.
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        mProgress = (ProgressBar) findViewById(R.id.progressbar);
+        findViewById(R.id.playlist_add_btn).setOnClickListener(this);
 
         String imageUrl = getIntent().getStringExtra(EXTRA_ARTIST_IMAGE);
         Picasso.with(this)
@@ -58,29 +60,14 @@ public class PlaylistActivity extends ActionBarActivity
         String artistName = getIntent().getStringExtra(EXTRA_ARTIST_NAME);
         setTitle(artistName);
 
-        if (null != findViewById(R.id.song_detail_container)) {
-            // The detail container view will be present only in the
-            // large-screen layouts (res/values-large and
-            // res/values-sw600dp). If this view is present, then the
-            // activity should be in two-pane mode.
-            mTwoPane = true;
-        }
-
         if (null == savedInstanceState) {
             String artistId = getIntent().getStringExtra(EXTRA_ARTIST_ID);
 
-            PlaylistFragment fragment = PlaylistFragment.newInstance(NB_SONGS_RESULTS, artistId);
-            fragment.setActivateOnItemClick(mTwoPane);
+            mFragment = PlaylistFragment.newInstance(NB_SONGS_RESULTS, artistId);
 
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.playlist_container, fragment, PlaylistFragment.TAG)
+                    .add(R.id.playlist_container, mFragment, PlaylistFragment.TAG)
                     .commit();
-        } else {
-            // In two-pane mode, list items should be given the
-            // 'activated' state when touched.
-            ((PlaylistFragment) getSupportFragmentManager()
-                    .findFragmentByTag(PlaylistFragment.TAG))
-                    .setActivateOnItemClick(true);
         }
     }
 
@@ -96,21 +83,21 @@ public class PlaylistActivity extends ActionBarActivity
 
     @Override
     public void onSongClick(Song song) {
-        if (mTwoPane) {
-            // In two-pane mode, show the detail view in this activity by
-            // adding or replacing the detail fragment using a
-            // fragment transaction.
-            SongDetailFragment fragment = SongDetailFragment.newInstance(song.getID());
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.song_detail_container, fragment)
-                    .commit();
+        // In single-pane mode, simply start the detail activity
+        // for the selected item ID.
+        Intent detailIntent = new Intent(this, SongDetailActivity.class);
+        detailIntent.putExtra(SongDetailFragment.ARG_SONG_ID, song.getID());
+        startActivity(detailIntent);
+    }
 
-        } else {
-            // In single-pane mode, simply start the detail activity
-            // for the selected item ID.
-            Intent detailIntent = new Intent(this, SongDetailActivity.class);
-            detailIntent.putExtra(SongDetailFragment.ARG_SONG_ID, song.getID());
-            startActivity(detailIntent);
-        }
+    @Override
+    public void onSongLoad() {
+        mProgress.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void onClick(View v) {
+        mProgress.setVisibility(View.VISIBLE);
+        mFragment.addSomeSongs();
     }
 }

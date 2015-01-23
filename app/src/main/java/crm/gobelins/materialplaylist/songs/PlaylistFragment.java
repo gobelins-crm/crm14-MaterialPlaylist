@@ -6,6 +6,7 @@ import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.ListView;
 
 import com.echonest.api.v4.Playlist;
@@ -19,7 +20,7 @@ import crm.gobelins.materialplaylist.R;
  * 'activated' state upon selection. This helps indicate which item is
  * currently being viewed in a {@link crm.gobelins.materialplaylist.songs.SongDetailFragment}.
  * <p/>
- * Activities containing this fragment MUST implement the {@link crm.gobelins.materialplaylist.songs.PlaylistFragment.OnSongClickListener}
+ * Activities containing this fragment MUST implement the {@link crm.gobelins.materialplaylist.songs.PlaylistFragment.PlaylistListener}
  * interface.
  */
 public class PlaylistFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Playlist> {
@@ -36,14 +37,13 @@ public class PlaylistFragment extends ListFragment implements LoaderManager.Load
     private String mArtistId;
     private int mResults;
 
-    private OnSongClickListener mListener;
+    private PlaylistListener mListener;
     private SongsAdapter mAdapter;
 
     /**
      * The current activated item position. Only used on tablets.
      */
     private int mActivatedPosition = ListView.INVALID_POSITION;
-    private boolean mActivateOnItemClick = false;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -76,6 +76,7 @@ public class PlaylistFragment extends ListFragment implements LoaderManager.Load
         mAdapter = new SongsAdapter(getActivity());
         setListAdapter(mAdapter);
 
+
         getLoaderManager().initLoader(PLAYLIST_LOADER_ID, null, this);
     }
 
@@ -83,16 +84,16 @@ public class PlaylistFragment extends ListFragment implements LoaderManager.Load
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        setActivateOnItemClick();
-
         // Restore the previously serialized activated item position.
         if (savedInstanceState != null
                 && savedInstanceState.containsKey(STATE_ACTIVATED_POSITION)) {
             setActivatedPosition(savedInstanceState.getInt(STATE_ACTIVATED_POSITION));
         }
 
+        getListView().setTranscriptMode(AbsListView.TRANSCRIPT_MODE_NORMAL);
+
         // Show progressbar
-        setListShown(false);
+        // setListShown(false);
     }
 
     @Override
@@ -100,11 +101,11 @@ public class PlaylistFragment extends ListFragment implements LoaderManager.Load
         super.onAttach(activity);
 
         // Activities containing this fragment must implement its callbacks.
-        if (!(activity instanceof OnSongClickListener)) {
-            throw new IllegalStateException(activity.toString() + "must implement OnSongClickListener.");
+        if (!(activity instanceof PlaylistListener)) {
+            throw new IllegalStateException(activity.toString() + "must implement PlaylistListener.");
         }
 
-        mListener = (OnSongClickListener) activity;
+        mListener = (PlaylistListener) activity;
     }
 
     @Override
@@ -131,21 +132,6 @@ public class PlaylistFragment extends ListFragment implements LoaderManager.Load
         }
     }
 
-    /**
-     * Turns on activate-on-click mode. When this mode is on, list items will be
-     * given the 'activated' state when touched.
-     */
-    public void setActivateOnItemClick(boolean activateOnItemClick) {
-        mActivateOnItemClick = activateOnItemClick;
-    }
-
-    private void setActivateOnItemClick() {
-        // When setting CHOICE_MODE_SINGLE, ListView will automatically
-        // give items the 'activated' state when touched.
-        getListView().setChoiceMode(mActivateOnItemClick
-                ? ListView.CHOICE_MODE_SINGLE
-                : ListView.CHOICE_MODE_NONE);
-    }
 
     private void setActivatedPosition(int position) {
         if (position == ListView.INVALID_POSITION) {
@@ -169,7 +155,7 @@ public class PlaylistFragment extends ListFragment implements LoaderManager.Load
 
     @Override
     public void onLoadFinished(Loader<Playlist> loader, Playlist playlist) {
-        mAdapter.clear();
+        // mAdapter.clear();
         if (null != playlist) {
             mAdapter.addAll(playlist.getSongs());
         } else {
@@ -177,7 +163,9 @@ public class PlaylistFragment extends ListFragment implements LoaderManager.Load
         }
 
         // hide Progressbar
-        setListShown(true);
+        // setListShown(true);
+
+        mListener.onSongLoad();
     }
 
     @Override
@@ -185,7 +173,13 @@ public class PlaylistFragment extends ListFragment implements LoaderManager.Load
         mAdapter.clear();
     }
 
-    public interface OnSongClickListener {
+    public void addSomeSongs() {
+        getLoaderManager().restartLoader(PLAYLIST_LOADER_ID, null, this);
+    }
+
+    public interface PlaylistListener {
         public void onSongClick(Song song);
+
+        public void onSongLoad();
     }
 }
