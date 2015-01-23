@@ -8,7 +8,7 @@ android {
         applicationId "crm.gobelins.materialplaylist"
         minSdkVersion 15
         targetSdkVersion 21
-        versionCode getVersionCodeFromGit()
+        versionCode 1 //getVersionCodeFromGit()
         versionName "0.1.0"
     }
     buildTypes {
@@ -26,12 +26,12 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.4.0'
 }
 
-def getVersionCodeFromGit() {
-    def stdout = new ByteArrayOutputStream()
-    exec {
-        commandLine "git", "rev-list", "--count", "HEAD"
-        standardOutput = stdout
-    }
-    def code = Integer.parseInt(stdout.toString().trim())
-    return code
-}
+//def getVersionCodeFromGit() {
+//    def stdout = new ByteArrayOutputStream()
+//    exec {
+//        commandLine "git", "rev-list", "--count", "HEAD"
+//        standardOutput = stdout
+//    }
+//    def code = Integer.parseInt(stdout.toString().trim())
+//    return code
+//}
