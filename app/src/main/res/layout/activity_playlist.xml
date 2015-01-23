@@ -7,7 +7,7 @@
         android:id="@+id/playlist_artist_image"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:elevation="6dp"
+        android:elevation="@dimen/elevation_medium"
         android:transitionName="@string/transition_artist_image" />
 
     <ProgressBar
@@ -22,22 +22,24 @@
 
     <ImageButton
         android:id="@+id/playlist_add_btn"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="@dimen/btn_diameter"
+        android:layout_height="@dimen/btn_diameter"
         android:layout_alignBottom="@id/playlist_artist_image"
         android:layout_alignParentRight="true"
-        android:layout_marginBottom="-24dp"
-        android:layout_marginRight="48dp"
-        android:background="@drawable/oval"
-        android:elevation="8dp"
+        android:layout_marginBottom="-28dp"
+        android:layout_marginRight="@dimen/btn_diameter"
+        android:background="@drawable/oval_ripple"
+        android:elevation="@dimen/elevation_high"
         android:src="@android:drawable/ic_input_add"
+        android:stateListAnimator="@anim/button_elevation"
         android:tint="@android:color/white" />
 
     <FrameLayout
         android:id="@+id/playlist_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/playlist_artist_image" />
+        android:layout_below="@id/playlist_artist_image"
+        android:elevation="@dimen/elevation_low" />
 
 </RelativeLayout>
 

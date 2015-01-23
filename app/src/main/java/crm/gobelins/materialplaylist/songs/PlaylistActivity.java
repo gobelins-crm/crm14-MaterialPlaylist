@@ -1,11 +1,15 @@
 package crm.gobelins.materialplaylist.songs;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
+import android.graphics.Outline;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewOutlineProvider;
 import android.widget.ProgressBar;
 
 import com.echonest.api.v4.Song;
@@ -46,7 +50,21 @@ public class PlaylistActivity extends ActionBarActivity
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mProgress = (ProgressBar) findViewById(R.id.progressbar);
-        findViewById(R.id.playlist_add_btn).setOnClickListener(this);
+
+        View fab = findViewById(R.id.playlist_add_btn);
+        fab.setOnClickListener(this);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            ViewOutlineProvider viewOutlineProvider = new ViewOutlineProvider() {
+                @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+                @Override
+                public void getOutline(View view, Outline outline) {
+                    int size = getResources().getDimensionPixelSize(R.dimen.btn_diameter);
+                    outline.setOval(0, 0, size, size);
+                }
+            };
+            fab.setOutlineProvider(viewOutlineProvider);
+        }
 
         String imageUrl = getIntent().getStringExtra(EXTRA_ARTIST_IMAGE);
         Picasso.with(this)
