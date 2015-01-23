@@ -60,8 +60,8 @@ public class ArtistsAdapter extends ArrayAdapter<Artist> {
         if (null != imageUrl) {
             Picasso.with(getContext())
                     .load(imageUrl)
-                    .resize(100, 100)
-                    .centerInside()
+                    .fit()
+                    .centerCrop()
                     .into(holder.image);
         } else {
             holder.image.setImageBitmap(null);
