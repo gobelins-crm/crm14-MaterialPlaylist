@@ -3,6 +3,8 @@ package crm.gobelins.materialplaylist.home;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
@@ -132,7 +134,7 @@ public class HomeActivity extends ActionBarActivity implements ArtistsFragment.O
             e.printStackTrace();
         }
 
-        startActivity(intent);
+        ActivityCompat.startActivity(this, intent, ActivityOptionsCompat.makeSceneTransitionAnimation(this).toBundle());
     }
 
 

@@ -21,5 +21,6 @@
     <string name="item_artist_image_description">Item Artist Image</string>
     <string name="song_detail_release_image_description">Song detail release image</string>
     <string name="song_detail_play_button">play</string>
+    <string name="transition_artist_image">transition_artist_image</string>
 
 </resources>
